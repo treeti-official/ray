@@ -39,6 +39,10 @@ spec:
           - name: dshm
             emptyDir:
               medium: Memory
+          - name: gcp-credentials-user-gcp-sa
+            secret:
+              defaultMode: 420
+              secretName: user-gcp-sa
           containers:
           - name: ray-node
             imagePullPolicy: Always
@@ -50,6 +54,8 @@ spec:
             env:
             - name: RAY_gcs_server_rpc_server_thread_num
               value: "1"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secret/gcp-credentials/user-gcp-sa.json
             ports:
             - containerPort: 6379  # Redis port for Ray <= 1.10.0. GCS server port for Ray >= 1.11.0.
             - containerPort: 10001  # Used by Ray Client
@@ -62,6 +68,8 @@ spec:
             volumeMounts:
             - mountPath: /dev/shm
               name: dshm
+            - mountPath: /secret/gcp-credentials
+              name: gcp-credentials-user-gcp-sa
             resources:
               requests:
                 cpu: {{ .CPU }}
