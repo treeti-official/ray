@@ -46,7 +46,7 @@ podTypes:
         # minWorkers is the minimum number of Ray workers of this pod type to keep running.
         minWorkers: 0
         # maxWorkers is the maximum number of Ray workers of this pod type to which Ray will scale.
-        maxWorkers: 3
+        maxWorkers: 24
         # memory is the memory used by this Pod type.
         # (Used for both requests and limits.)
         memory: 3.5G
@@ -69,10 +69,11 @@ podTypes:
         #   Note that it is often not necessary to manually specify tolerations for GPU
         #   usage on managed platforms such as AKS, EKS, and GKE.
         #   ref: https://docs.ray.io/en/master/cluster/kubernetes-gpu.html
-        tolerations: []
-        # - key: nvidia.com/gpu
-        #   operator: Exists
-        #   effect: NoSchedule
+        tolerations:
+        - key: ray
+          operator: Equal
+          value: "false"
+          effect: NoSchedule
 
     # Optionally, define more worker podTypes
     # rayWorkerType2:
