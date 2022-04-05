@@ -63,10 +63,7 @@ podTypes:
         rayResources: {}
         # Optionally, set a node selector for this Pod type. See https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
         nodeSelector:
-          key: ray
-          operator: Equal
-          value: "false"
-          effect: NoExecute
+          ray: "t"
 
         # tolerations for Ray pods of this podType
         #   ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
